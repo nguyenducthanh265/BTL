@@ -1,0 +1,25 @@
+[project]
+name = "btl-ai-mcts"
+version = "1.1.0"
+description = "Minimax, Alpha-Beta and MCTS-UCT for Tic-Tac-Toe, five-in-a-row and Xiangqi"
+requires-python = ">=3.10"
+dependencies = ["matplotlib>=3.8", "numpy>=1.24"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+paper = ["pymupdf>=1.24"]
+
+[tool.setuptools.packages.find]
+include = ["gameai*", "experiments*"]
+
+[tool.setuptools.package-data]
+"gameai.demo" = ["index.html"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+markers = ["slow: takes more than a few seconds"]

@@ -1,0 +1,39 @@
+{
+  "captured_utc": "2026-11-06T08:47:05.677181+00:00",
+  "source": "C:\\Users\\ThinkPad\\OneDrive - MSFT\\Desktop\\BTL AI\\btl-ai-mcts\\results\\raw",
+  "note": "Each source file was captured once; a running writer may append after capture.",
+  "files": {
+    "bandit.csv": {
+      "bytes": 73672,
+      "sha256": "bf8c140a4f5c3187c69d660041c9143b649ef0c12b93fba8c51509a5abfbafe9"
+    },
+    "gomoku9.csv": {
+      "bytes": 1883789,
+      "sha256": "eb58a97a1e5138ef35656d28fb892e2b7ef99e5ad8bafa96f94aa7f80ae13580"
+    },
+    "nodes.csv": {
+      "bytes": 15352,
+      "sha256": "8d41c2743e2597e74931081ace0d2d93e7f8ccfa1c4d910168a16b1a4b447bca"
+    },
+    "root_stats.csv": {
+      "bytes": 125629,
+      "sha256": "3f4b5973d9bd44852a63bb6f0bc777a517e51fea0a4c95504023a8e906f0cf48"
+    },
+    "ttt3.csv": {
+      "bytes": 11287580,
+      "sha256": "866a8cff36ae426e3fc33174b2a8af3b21c8b3c53abfd9e02a2e0bcab4d582b2"
+    },
+    "verify_exhaustive.csv": {
+      "bytes": 6002,
+      "sha256": "63e7d2c90d8036766e79ea1962e0e4ef2873075374a123f2a5002ffb52af637f"
+    },
+    "verify_quality.csv": {
+      "bytes": 413,
+      "sha256": "a9852a3807a551517ad89404866075dbfafbd737eaf7ec0900d02fabcca12b39"
+    },
+    "xiangqi.csv": {
+      "bytes": 135965,
+      "sha256": "eb672b31099d0fbeafaecd0d67caaadae0f3a1664bb3be5477f82bce4b53de4a"
+    }
+  }
+}

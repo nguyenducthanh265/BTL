@@ -1,0 +1,15 @@
+\begin{table*}[!t]
+\centering
+\caption{Nodes and mean one-core time: Tic-Tac-Toe 3x3}
+\label{tab:nodes_ttt3}
+\small
+\begin{tabular}{llrrrrrrrrrr}
+\toprule
+Position & Depth & Positions & Minimax nodes & AB nodes & AB+ord nodes & MM/AB & MM/AB+ord & AB/AB+ord & MM s & AB s & AB+ord s \\
+\midrule
+empty & full & 1 & 549,946 & 31,621 & 22,294 & 17.4 & 24.7 & 1.4 & 2.489 & 0.144 & 0.196 \\
+corner & full & 1 & 59,705 & 4,048 & 4,048 & 14.7 & 14.7 & 1.0 & 0.231 & 0.019 & 0.039 \\
+centre & full & 1 & 55,505 & 4,991 & 6,066 & 11.1 & 9.2 & 0.8 & 0.249 & 0.020 & 0.052 \\
+\bottomrule
+\end{tabular}
+\end{table*}

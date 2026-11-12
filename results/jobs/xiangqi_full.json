@@ -1,0 +1,11 @@
+{
+  "supervisor_pid": 54460,
+  "status": "stopped_by_user",
+  "started_utc": "2026-11-06T08:54:14.595111+00:00",
+  "workers": 4,
+  "raw": "C:\\Users\\ThinkPad\\OneDrive - MSFT\\Desktop\\BTL AI\\btl-ai-mcts\\results\\raw\\xiangqi.csv",
+  "initial_missing": 3150,
+  "runner_pid": 33116,
+  "stopped_utc": "2026-11-06T08:55:58.092738+00:00",
+  "note": "Owner chose delivery of verified work instead of the full long experiment. Only this supervisor and its child tree were terminated. Existing Gomoku process was preserved."
+}

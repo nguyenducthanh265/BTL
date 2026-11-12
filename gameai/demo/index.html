@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo AI trò chơi: MCTS và Alpha-Beta</title>
+<link rel="icon" href="data:,">
+<style>
+  :root { --ink: #24211c; --muted: #6b6559; --line: #d9d3c5; --paper: #f5f2ea; --card: #fff;
+          --red: #b3261e; --black: #1f1d1a; --accent: #1f6f5c; --accent-soft: #e0f0ea; --wood: #ecd5a6; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { background: var(--paper); color: var(--ink); font: 14px/1.45 "Segoe UI", system-ui, sans-serif;
+         display: flex; flex-direction: column; }
+  header { padding: 8px 16px; border-bottom: 1px solid var(--line); background: var(--card); }
+  h1 { font-size: 17px; margin: 0; }
+  h2 { font-size: 15px; margin: 0 0 8px; }
+  main { flex: 1; min-height: 0; display: grid; gap: 12px; padding: 12px;
+         grid-template-columns: 250px minmax(0, 1fr) 410px; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px;
+           overflow: auto; }
+
+  label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 13px; }
+  select, input { display: block; width: 100%; margin-top: 2px; padding: 5px 6px; font: inherit; font-weight: 400;
+                  border: 1px solid var(--line); border-radius: 5px; background: var(--card); color: var(--ink); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  button.action { padding: 8px; font: inherit; font-weight: 600; border-radius: 5px; cursor: pointer;
+                  border: 1px solid var(--accent); background: var(--accent); color: #fff; }
+  button.action.secondary { background: var(--card); color: var(--accent); }
+  button.action:disabled { opacity: .45; cursor: default; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .hint { margin: 2px 0 8px; font-size: 12px; color: var(--muted); }
+  .hint.warn { color: var(--red); }
+  [hidden] { display: none !important; }
+
+  #play { display: flex; flex-direction: column; align-items: center; min-height: 0; min-width: 0; gap: 6px; }
+  #status { font-size: 17px; font-weight: 600; min-height: 26px; display: flex; align-items: center; gap: 8px; }
+  #status.check, #status.error { color: var(--red); }
+  #status.done { color: var(--accent); }
+  #last { color: var(--muted); min-height: 20px; }
+  #board { flex: 1; min-height: 0; width: 100%; display: flex; justify-content: center; align-items: center;
+           container-type: inline-size; overflow: auto; justify-content: safe center; }
+  #board-help { margin: 0; text-align: center; }
+  .spinner { width: 16px; height: 16px; border: 3px solid var(--line); border-top-color: var(--accent);
+             border-radius: 50%; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } }
+
+  .grid { display: grid; gap: 0; flex: none; }
+  .grid .head { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 11px; }
+  .grid button { padding: 0; margin: 0; background: var(--card); border: 1px solid #b9b2a2; cursor: pointer;
+                 font: 700 calc(var(--cell) * .62)/1 "Segoe UI", system-ui, sans-serif; }
+  .grid button:disabled { cursor: default; }
+  .grid button:not(:disabled):hover { background: var(--accent-soft); }
+  .grid button.last { background: #fbeeb8; }
+  .stone1 { color: #1b4f91; }
+  .stone-1 { color: var(--red); }
+
+  svg.xiangqi { height: 100%; max-width: 100%; display: block; }
+  svg.xiangqi .lines { stroke: #4d3a1e; stroke-width: 1.6; fill: none; }
+  svg.xiangqi text { font-family: "KaiTi", "STKaiti", "Microsoft YaHei", "SimSun", serif; text-anchor: middle;
+                     dominant-baseline: central; user-select: none; }
+  svg.xiangqi .coord { font: 13px "Segoe UI", system-ui, sans-serif; fill: #6c5730; }
+  svg.xiangqi .river { font-size: 30px; fill: #7a6236; }
+  svg.xiangqi .glyph { font-size: 32px; font-weight: 700; }
+  svg.xiangqi .hit { fill: transparent; }
+  svg.xiangqi .hit.active { cursor: pointer; }
+
+  #analysis.thinking .content { opacity: .45; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px; }
+  .stat { background: var(--paper); border-radius: 6px; padding: 5px 7px; }
+  .stat b { display: block; font-size: 15px; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: 11px; color: var(--muted); }
+  .params { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { padding: 4px 6px; border-bottom: 1px solid var(--line); text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  th { font-size: 12px; color: var(--muted); }
+  .visits-head { width: 120px; }
+  td.visits { position: relative; }
+  td.visits i { position: absolute; left: 0; bottom: 0; height: 4px; background: var(--accent); }
+  tr.chosen td { background: var(--accent-soft); font-weight: 700; }
+  .tag { font-size: 11px; font-weight: 600; color: var(--accent); margin-left: 4px; }
+  .note { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
+  .value-note { margin: 0 0 8px; }
+
+  @media (max-width: 1150px) {
+    html, body { height: auto; }
+    main { grid-template-columns: 1fr; }
+    #board { min-height: 480px; }
+    svg.xiangqi { height: 480px; }
+  }
+  @media (pointer: coarse) {
+    select, input { min-height: 44px; font-size: 16px; }
+    button.action { min-height: 44px; }
+    .grid { --min-cell: 44px; }
+    /* Preserve distinct touch targets and artwork; only the board scrolls. */
+    svg.xiangqi { flex: none; min-width: 447px; min-height: 493px; }
+  }
+</style>
+</head>
+<body>
+<header><h1>Demo AI trò chơi: MCTS và Alpha-Beta</h1></header>
+<main>
+  <aside class="panel">
+    <label>Trò chơi <select id="game"></select></label>
+    <label>Bạn chơi <select id="side"></select></label>
+    <label>Thuật toán của AI
+      <select id="kind">
+        <option value="mcts">MCTS</option>
+        <option value="alphabeta">Alpha-Beta</option>
+      </select>
+    </label>
+    <div id="mcts-options">
+      <div class="row">
+        <label>Số vòng lặp <input id="iterations" type="number" step="100"></label>
+        <label>Hằng số c <input id="c" type="number" min="0" max="10" step="0.1"></label>
+      </div>
+      <label>Công thức chọn <select id="formula"></select></label>
+      <p class="hint" id="formula-text"></p>
+      <label>Rollout <select id="rollout"></select></label>
+    </div>
+    <div id="alphabeta-options">
+      <label>Độ sâu <input id="depth" type="number" min="1"></label>
+    </div>
+    <label id="radius-field">Bán kính ứng viên <input id="radius" type="number" min="1" max="4"></label>
+    <p class="hint warn" id="warning"></p>
+    <div class="buttons">
+      <button class="action" id="new">Ván mới</button>
+      <button class="action secondary" id="undo">Hoàn tác</button>
+    </div>
+  </aside>
+
+  <section id="play">
+    <div id="status" role="status"></div>
+    <div id="board"></div>
+    <p id="board-help" class="hint" hidden>Vuốt ngang trên bàn cờ để xem và chọn các ô ở hai mép.</p>
+    <div id="last"></div>
+  </section>
+
+  <section class="panel" id="analysis"></section>
+</main>
+
+<script>
+const FORMULA_TEXT = {
+  ucb1: 'W/N + c·√(ln Np / N)',
+  no_sqrt: 'W/N + c·ln Np / N',
+  no_log: 'W/N + c·√(Np / N)',
+  polynomial: 'W/N + c·Np^(1/4) / √N',
+  ucb1_tuned: 'W/N + c·√(ln Np / N · min(1/4, V))',
+  progressive_bias: 'W/N + c·√(ln Np / N) + prior / (N + 1)',
+};
+const ROLLOUT_TEXT = {
+  random: 'random: ngẫu nhiên đến hết ván',
+  heuristic: 'heuristic: ưu tiên nước tốt',
+  cutoff: 'cutoff: dừng sớm rồi lượng giá',
+};
+
+const $ = id => document.getElementById(id);
+const number = (value, digits = 0) => value.toLocaleString('vi-VN',
+  { minimumFractionDigits: digits, maximumFractionDigits: digits });
+
+// All game state comes from the server's last answer (S.pos); the rest is only UI state.
+const S = { config: null, pos: null, game: 'ttt3', side: 1, selected: null, analysis: null,
+            busy: false, thinking: false, startedAt: 0, error: '', token: 0 };
+
+// ---------------------------------------------------------------- talking to the server
+async function sync(moves, agent = null) {
+  const token = ++S.token;  // an answer that arrives after a newer request is ignored
+  S.busy = true;
+  S.thinking = agent !== null;
+  S.startedAt = Date.now();
+  S.selected = null;
+  S.error = '';
+  render();
+  try {
+    const response = await fetch('/api/play', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ game: S.game, moves, agent }),
+    });
+    const data = await response.json();
+    if (token !== S.token) return;
+    if (!response.ok) throw new Error(data.error);
+    S.pos = data;
+    if (data.analysis) S.analysis = data.analysis;
+    S.busy = S.thinking = false;
+    render();
+    if (data.status === 'playing' && data.to_play !== S.side) sync(data.moves, readAgent());
+  } catch (error) {
+    if (token !== S.token) return;
+    S.busy = S.thinking = false;
+    S.error = error instanceof TypeError
+      ? 'Không kết nối được máy chủ. Hãy chạy lại: python -m gameai.demo'
+      : error.message;
+    render();
+  }
+}
+
+function readAgent() {
+  const read = id => { const v = Number.parseFloat($(id).value); return Number.isNaN(v) ? undefined : v; };
+  const whole = id => { const v = read(id); return v === undefined ? v : Math.round(v); };
+  const radius = whole('radius');
+  if ($('kind').value === 'alphabeta') return { type: 'alphabeta', depth: whole('depth'), radius };
+  return { type: 'mcts', iterations: whole('iterations'), c: read('c'),
+           formula: $('formula').value, rollout: $('rollout').value, radius };
+}
+
+// ---------------------------------------------------------------- player actions
+function newGame() {
+  S.game = $('game').value;
+  S.side = Number($('side').value);
+  S.pos = null;
+  S.analysis = null;
+  sync([]);
+}
+
+// Back to the human's previous turn: two plies, or one if the AI has not answered yet.
+function undoTarget() {
+  return S.pos.moves.length - (S.pos.to_play === S.side ? 2 : 1);
+}
+function canUndo() {
+  return S.pos && S.pos.game === S.game && (!S.busy || S.thinking) && undoTarget() >= (S.side === 1 ? 0 : 1);
+}
+function undo() {
+  S.analysis = null;
+  sync(S.pos.moves.slice(0, undoTarget()));
+}
+
+const myTurn = () => S.pos && !S.busy && S.pos.status === 'playing' && S.pos.to_play === S.side;
+
+function clickBoard(event) {
+  const element = event.target.closest('[data-i]');
+  if (!element || !myTurn()) return;
+  const i = Number(element.dataset.i);
+  const { moves, legal, board, game } = S.pos;
+  if (game !== 'xiangqi') {
+    if (legal.includes(i)) sync([...moves, i]);
+  } else if (S.selected !== null && legal.some(m => m[0] === S.selected && m[1] === i)) {
+    sync([...moves, [S.selected, i]]);
+  } else {
+    S.selected = i !== S.selected && board[i] * S.side > 0 ? i : null;
+    renderBoard();
+  }
+}
+
+// ---------------------------------------------------------------- Tic-Tac-Toe boards
+function gridHtml(pos, size) {
+  const cell = `max(var(--min-cell, 0px), min(${Math.floor(560 / size)}px, calc((100vh - 170px) / ${size + 1}), calc((100cqw - 18px) / ${size})))`;
+  const last = pos.moves.at(-1);
+  const clickable = myTurn();
+  let html = `<div class="grid" style="--cell:${cell};grid-template-columns:18px repeat(${size},var(--cell));`
+           + `grid-template-rows:18px repeat(${size},var(--cell))"><span></span>`;
+  for (let c = 1; c <= size; c++) html += `<span class="head">${c}</span>`;
+  pos.board.forEach((stone, i) => {
+    if (i % size === 0) html += `<span class="head">${i / size + 1}</span>`;
+    const name = `Hàng ${Math.floor(i / size) + 1}, cột ${i % size + 1}`;
+    html += `<button data-i="${i}" aria-label="${name}" class="stone${stone} ${i === last ? 'last' : ''}"`
+          + `${clickable && pos.legal.includes(i) ? '' : ' disabled'}>${stone === 0 ? '' : stone === 1 ? 'X' : 'O'}</button>`;
+  });
+  return html + '</div>';
+}
+
+// ---------------------------------------------------------------- Xiangqi board
+const G = 60, M = 54;  // distance between intersections and margin, in SVG units
+const px = col => M + col * G;
+const py = row => M + row * G;
+const line = (r1, c1, r2, c2) => `<line x1="${px(c1)}" y1="${py(r1)}" x2="${px(c2)}" y2="${py(r2)}"/>`;
+
+// The four small corners marking the starting points of cannons and soldiers.
+function startMark(row, col) {
+  return [[-1, -1], [1, -1], [-1, 1], [1, 1]].filter(([a]) => col + a >= 0 && col + a <= 8)
+    .map(([a, b]) => `<path d="M${px(col) + a * 5} ${py(row) + b * 14}V${py(row) + b * 5}H${px(col) + a * 14}"/>`)
+    .join('');
+}
+
+function xiangqiBackground() {
+  let lines = '';
+  for (let r = 0; r <= 9; r++) lines += line(r, 0, r, 8);
+  // Inner files stop at the river; only the two edge files cross it.
+  for (let c = 0; c <= 8; c++) lines += c === 0 || c === 8 ? line(0, c, 9, c) : line(0, c, 4, c) + line(5, c, 9, c);
+  lines += line(0, 3, 2, 5) + line(0, 5, 2, 3) + line(7, 3, 9, 5) + line(7, 5, 9, 3);  // palaces
+  for (const c of [1, 7]) lines += startMark(2, c) + startMark(7, c);
+  for (const c of [0, 2, 4, 6, 8]) lines += startMark(3, c) + startMark(6, c);
+  let html = `<rect width="${2 * M + 8 * G}" height="${2 * M + 9 * G}" rx="10" fill="var(--wood)"/>`
+           + `<g class="lines">${lines}</g>`
+           + `<text class="river" x="${px(2)}" y="${py(4.5)}">楚 河</text>`
+           + `<text class="river" x="${px(6)}" y="${py(4.5)}">漢 界</text>`;
+  for (let c = 0; c <= 8; c++) html += `<text class="coord" x="${px(c)}" y="${py(9) + 34}">${'abcdefghi'[c]}</text>`;
+  for (let r = 0; r <= 9; r++) html += `<text class="coord" x="${M - 34}" y="${py(r)}">${9 - r}</text>`;
+  return html;
+}
+
+function xiangqiHtml(pos) {
+  const at = i => [px(i % 9), py(Math.floor(i / 9))];
+  const ring = (i, color, width = 4, radius = 29) => {
+    const [x, y] = at(i);
+    return `<circle cx="${x}" cy="${y}" r="${radius}" fill="none" stroke="${color}" stroke-width="${width}"/>`;
+  };
+  let html = xiangqiBackground();
+
+  const last = pos.moves.at(-1);
+  if (last) {
+    const [x, y] = at(last[0]);
+    html += `<circle cx="${x}" cy="${y}" r="9" fill="#b8860b" opacity=".65"/>`;
+  }
+  pos.board.forEach((piece, i) => {
+    if (!piece) return;
+    const [x, y] = at(i);
+    const color = piece > 0 ? 'var(--red)' : 'var(--black)';
+    html += `<circle cx="${x}" cy="${y}" r="26" fill="#fbf1da" stroke="${color}" stroke-width="2.5"/>`
+          + `<circle cx="${x}" cy="${y}" r="21" fill="none" stroke="${color}" stroke-width="1"/>`
+          + `<text class="glyph" x="${x}" y="${y}" fill="${color}">${S.config.pieces[piece]}</text>`;
+  });
+  if (last) html += ring(last[1], '#b8860b');
+  if (pos.check) html += ring(pos.board.indexOf(pos.to_play), 'var(--red)', 5, 31);
+  if (S.selected !== null) {
+    html += ring(S.selected, 'var(--accent)', 5);
+    for (const [from, to] of pos.legal) {
+      if (from !== S.selected) continue;
+      const [x, y] = at(to);
+      html += pos.board[to] ? ring(to, 'var(--accent)', 5)
+                            : `<circle cx="${x}" cy="${y}" r="10" fill="var(--accent)" opacity=".8"/>`;
+    }
+  }
+  const active = myTurn() ? 'active' : '';
+  for (let i = 0; i < 90; i++) {  // invisible click targets on top of everything
+    const [x, y] = at(i);
+    html += `<circle class="hit ${active}" data-i="${i}" cx="${x}" cy="${y}" r="29"/>`;
+  }
+  return `<svg class="xiangqi" viewBox="0 0 ${2 * M + 8 * G} ${2 * M + 9 * G}" role="img" aria-label="Bàn cờ tướng">${html}</svg>`;
+}
+
+// ---------------------------------------------------------------- rendering
+const sideName = (game, player) => game === 'xiangqi' ? (player === 1 ? 'Đỏ' : 'Đen') : (player === 1 ? 'X' : 'O');
+
+function renderBoard() {
+  const help = $('board-help');
+  help.hidden = true;
+  if (!S.pos) {
+    $('board').textContent = S.busy ? 'Đang tải bàn cờ…' : '';
+    return;
+  }
+  const { game } = S.pos;
+  $('board').innerHTML = game === 'xiangqi' ? xiangqiHtml(S.pos) : gridHtml(S.pos, S.config.games[game].size);
+  updateBoardHelp();
+}
+
+function updateBoardHelp() {
+  $('board-help').hidden = $('board').scrollWidth <= $('board').clientWidth + 1;
+}
+addEventListener('resize', updateBoardHelp);
+
+function statusText(pos) {
+  const name = player => sideName(pos.game, player);
+  if (pos.status === 'finished') {
+    if (pos.winner === 0) return pos.game === 'xiangqi' ? 'Hòa (lặp thế cờ hoặc quá giới hạn nước đi)' : 'Hòa';
+    const who = pos.winner === S.side ? 'Bạn thắng' : 'AI thắng';
+    const how = pos.game !== 'xiangqi' ? '' : pos.check ? ', chiếu bí' : ', đối phương hết nước đi';
+    return `${who} (${name(pos.winner)}${how})`;
+  }
+  const turn = pos.to_play === S.side ? `Lượt của bạn (${name(S.side)})` : `Lượt của AI (${name(pos.to_play)})`;
+  return pos.check ? `Chiếu tướng! ${turn}` : turn;
+}
+
+function renderStatus() {
+  const box = $('status');
+  if (S.error) {
+    box.className = 'error';
+    box.textContent = S.error;
+  } else if (S.thinking) {
+    const seconds = Math.floor((Date.now() - S.startedAt) / 1000);
+    box.className = '';
+    box.innerHTML = `<span class="spinner"></span><span>AI đang suy nghĩ… ${seconds} giây</span>`;
+  } else if (S.busy) {
+    box.className = '';
+    box.innerHTML = '<span class="spinner"></span><span>Đang cập nhật bàn cờ…</span>';
+  } else if (S.pos) {
+    box.className = S.pos.status === 'finished' ? 'done' : S.pos.check ? 'check' : '';
+    box.textContent = statusText(S.pos);
+  }
+  const last = S.pos && S.pos.last_label;
+  $('last').textContent = last ? `Nước vừa đi: ${last} (nửa nước thứ ${S.pos.moves.length})` : 'Chưa có nước đi nào';
+}
+
+const stat = (value, name) => `<div class="stat"><b>${value}</b><span>${name}</span></div>`;
+
+function mctsPanel(a, game) {
+  const o = a.options;
+  const rows = a.children.map((child, index) => `
+    <tr class="${index === 0 ? 'chosen' : ''}">
+      <td>${child.label}${index === 0 ? '<span class="tag">đã chọn</span>' : ''}</td>
+      <td class="visits">${number(child.n)}<i style="width:${100 * child.n / a.children[0].n}%"></i></td>
+      <td>${number(child.w, 1)}</td>
+      <td>${number(child.ratio, 3)}</td>
+    </tr>`).join('');
+  return `
+    <div class="stats">
+      ${stat(number(a.iterations), 'vòng lặp')}
+      ${stat(`${number(a.seconds, 2)} s`, 'thời gian')}
+      ${stat(number(a.iterations / Math.max(a.seconds, 1e-6)), 'vòng/giây')}
+      ${stat(number(a.nodes), 'nút trong cây')}
+    </div>
+    <div class="params">c = ${o.c}, công thức ${o.formula}, rollout ${o.rollout}${o.radius ? `, bán kính ${o.radius}` : ''}</div>
+    <table>
+      <thead><tr><th>Nước đi${game === 'xiangqi' ? '' : ' (hàng, cột)'}</th><th class="visits-head">N</th><th>W</th><th>W/N</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <p class="note">Hiển thị ${a.children.length} nước được thăm nhiều nhất trong ${a.expanded} nước đã mở rộng
+      (gốc có ${a.candidates} nước ứng viên).</p>
+    <p class="note">N: số lần thăm. W: tổng phần thưởng, tính theo bên vừa đi vào nút con, tức là AI.
+      AI chọn nước có N lớn nhất (robust child), không phải nước có W/N lớn nhất.</p>`;
+}
+
+function alphabetaPanel(a, game) {
+  const first = sideName(game, 1), second = sideName(game, -1);
+  const plies = 1000000 - Math.abs(a.value);
+  const reading = plies < 1000
+    ? `${a.value > 0 ? first : second} thắng cưỡng bức sau ${plies} nửa nước.`
+    : a.value === 0 && game === 'ttt3' && a.options.depth === 9 ? 'Hai bên đánh tối ưu thì hòa.'
+    : `Điểm lượng giá ở độ sâu ${a.options.depth}, không phải kết quả chắc chắn.`;
+  return `
+    <div class="stats">
+      ${stat(number(a.value), 'giá trị')}
+      ${stat(number(a.nodes), 'số nút')}
+      ${stat(`${number(a.seconds, 2)} s`, 'thời gian')}
+      ${stat(a.options.depth, 'độ sâu')}
+    </div>
+    ${a.options.radius ? `<div class="params">Bán kính ứng viên: ${a.options.radius}</div>` : ''}
+    <p class="value-note"><b>${reading}</b></p>
+    <p class="note">Giá trị luôn tính theo góc nhìn của ${first}: dương có lợi cho ${first}, âm có lợi cho ${second}.
+      Bên ${first} chọn giá trị lớn nhất, bên ${second} chọn giá trị nhỏ nhất.</p>
+    <p class="note">Nước đã chọn: <b>${a.label}</b>. Có ${a.best_count} nước cùng giá trị tốt nhất
+      (${a.best_moves.join('; ')}${a.best_count > a.best_moves.length ? '; …' : ''}), AI chọn ngẫu nhiên một nước trong số đó.</p>`;
+}
+
+function renderAnalysis() {
+  const panel = $('analysis');
+  panel.className = `panel ${S.thinking ? 'thinking' : ''}`;
+  const a = S.analysis;
+  let content = '<p class="hint">Chưa có nước đi nào của AI. Sau mỗi nước đi của AI, phần này cho biết AI đã tính toán những gì.</p>';
+  if (a) content = a.type === 'mcts' ? mctsPanel(a, S.pos.game) : alphabetaPanel(a, S.pos.game);
+  const title = !a ? 'AI đã nghĩ gì?' : `AI đã nghĩ gì? ${a.type === 'mcts' ? 'MCTS' : 'Alpha-Beta'} chọn ${a.label}`;
+  panel.innerHTML = `<h2>${title}</h2><div class="content">${content}</div>`;
+}
+
+function renderControls() {
+  const kind = $('kind').value;
+  const game = S.config.games[$('game').value];
+  $('mcts-options').hidden = kind !== 'mcts';
+  $('alphabeta-options').hidden = kind !== 'alphabeta';
+  $('radius-field').hidden = !('radius' in game[kind]);
+  $('formula-text').textContent = FORMULA_TEXT[$('formula').value] || '';
+  $('undo').disabled = !canUndo();
+
+  const slowGame = $('game').value !== 'ttt3';
+  const depth = Number($('depth').value);
+  $('warning').textContent =
+    kind === 'alphabeta' && slowGame && depth === 4 ? 'Độ sâu 4 có thể mất từ vài giây đến cả phút.'
+    : kind === 'alphabeta' && slowGame && depth >= 5 ? 'Độ sâu 5 có thể mất nhiều phút và máy chủ không dừng được giữa chừng.'
+    : kind === 'mcts' && $('game').value === 'xiangqi' && $('rollout').value === 'random'
+      ? 'Rollout random trên cờ tướng rất chậm: khoảng 4 giây cho mỗi 1000 vòng lặp.' : '';
+}
+
+function render() {
+  renderControls();
+  renderBoard();
+  renderStatus();
+  renderAnalysis();
+}
+setInterval(() => { if (S.thinking) renderStatus(); }, 250);
+
+// ---------------------------------------------------------------- start-up
+function fillSelect(select, items) {
+  select.innerHTML = items.map(([value, text]) => `<option value="${value}">${text}</option>`).join('');
+}
+
+function applyGameDefaults() {
+  const name = $('game').value;
+  const game = S.config.games[name];
+  const first = sideName(name, 1), second = sideName(name, -1);
+  const side = $('side').value || '1';
+  fillSelect($('side'), [['1', `${first} (đi trước)`], ['-1', `${second} (đi sau)`]]);
+  $('side').value = side;
+  $('iterations').value = game.mcts.iterations;
+  $('c').value = game.mcts.c;
+  $('formula').value = game.mcts.formula;
+  $('rollout').value = game.mcts.rollout;
+  $('depth').value = game.alphabeta.depth;
+  $('depth').max = game.max_depth;
+  if (game.mcts.radius) $('radius').value = game.mcts.radius;
+}
+
+async function start() {
+  try {
+    S.config = await (await fetch('/api/config')).json();
+  } catch {
+    $('status').textContent = 'Không kết nối được máy chủ. Hãy chạy lại: python -m gameai.demo';
+    return;
+  }
+  fillSelect($('game'), Object.entries(S.config.games).map(([key, game]) => [key, game.label]));
+  fillSelect($('formula'), S.config.formulas.map(name => [name, name]));
+  fillSelect($('rollout'), S.config.rollouts.map(name => [name, ROLLOUT_TEXT[name] || name]));
+  $('iterations').max = S.config.max_iterations;
+  applyGameDefaults();
+
+  $('game').addEventListener('change', () => { applyGameDefaults(); newGame(); });
+  $('side').addEventListener('change', newGame);
+  $('new').addEventListener('click', newGame);
+  $('undo').addEventListener('click', undo);
+  $('board').addEventListener('click', clickBoard);
+  for (const id of ['kind', 'formula', 'rollout', 'depth']) $(id).addEventListener('input', renderControls);
+  newGame();
+}
+start();
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "version": "1.1.0",
+  "wheel": "btl_ai_mcts-1.1.0-py3-none-any.whl",
+  "sha256": "8b4e583b9943f3c6cf45666c6f75a82e9eba89a48cd9fabe8debcc77f645abc6",
+  "bytes": 66602,
+  "source_parity": true,
+  "isolated_http_mcts_and_404": true
+}

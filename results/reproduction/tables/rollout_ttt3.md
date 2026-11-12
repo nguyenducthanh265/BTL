@@ -1,0 +1,14 @@
+**Rollout policies: Tic-Tac-Toe 3x3**
+
+| Agent a | Opponent b | Games | W | D | L | Score | Approx. 95% score interval | Flag |
+|---|---|---|---|---|---|---|---|---|
+| MCTS(10, c=1.4) | Perfect | 200 | 0 | 58 | 142 | 0.145 | [0.103, 0.200] | interval below 0.5 (descriptive) |
+| MCTS(10, c=1.4, heuristic) | Perfect | 200 | 0 | 94 | 106 | 0.235 | [0.182, 0.298] | interval below 0.5 (descriptive) |
+| MCTS(25, c=1.4) | Perfect | 200 | 0 | 91 | 109 | 0.228 | [0.175, 0.290] | interval below 0.5 (descriptive) |
+| MCTS(25, c=1.4, heuristic) | Perfect | 200 | 0 | 118 | 82 | 0.295 | [0.236, 0.362] | interval below 0.5 (descriptive) |
+| MCTS(50, c=1.4) | Perfect | 200 | 0 | 134 | 66 | 0.335 | [0.273, 0.403] | interval below 0.5 (descriptive) |
+| MCTS(50, c=1.4, heuristic) | Perfect | 200 | 0 | 151 | 49 | 0.378 | [0.313, 0.446] | interval below 0.5 (descriptive) |
+| MCTS(100, c=1.4) | Perfect | 200 | 0 | 138 | 62 | 0.345 | [0.283, 0.413] | interval below 0.5 (descriptive) |
+| MCTS(100, c=1.4, heuristic) | Perfect | 200 | 0 | 169 | 31 | 0.422 | [0.356, 0.492] | interval below 0.5 (descriptive) |
+| MCTS(200, c=1.4) | Perfect | 200 | 0 | 162 | 38 | 0.405 | [0.339, 0.474] | interval below 0.5 (descriptive) |
+| MCTS(200, c=1.4, heuristic) | Perfect | 200 | 0 | 170 | 30 | 0.425 | [0.359, 0.494] | interval below 0.5 (descriptive) |

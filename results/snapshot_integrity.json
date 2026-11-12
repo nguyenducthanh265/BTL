@@ -1,0 +1,30 @@
+{
+  "captured_utc": "2026-11-06T13:07:50.862170+00:00",
+  "live_equals_frozen": [
+    "bandit.csv",
+    "gomoku9.csv",
+    "nodes.csv",
+    "root_stats.csv",
+    "ttt3.csv",
+    "verify_exhaustive.csv",
+    "verify_quality.csv",
+    "xiangqi.csv"
+  ],
+  "raw_equals_prechange_archive": [
+    "bandit.csv",
+    "gomoku9.csv",
+    "nodes.csv",
+    "root_stats.csv",
+    "ttt3.csv",
+    "verify_exhaustive.csv",
+    "verify_quality.csv",
+    "xiangqi.csv"
+  ],
+  "archive_files_hash_verified": 77,
+  "raw_files_hash_verified": 8,
+  "markdown_tables": 30,
+  "tex_tables": 30,
+  "png_figures": 7,
+  "pdf_figures": 7,
+  "errors": []
+}

@@ -1,0 +1,14 @@
+{
+  "response_before_final_body_byte": false,
+  "response_status_line": "HTTP/1.0 404 Not Found",
+  "response_json": {
+    "error": "Không tìm thấy"
+  },
+  "handler_observations": [
+    {
+      "status": 404,
+      "declared_body_bytes": 2,
+      "body_bytes_consumed_before_response": 2
+    }
+  ]
+}

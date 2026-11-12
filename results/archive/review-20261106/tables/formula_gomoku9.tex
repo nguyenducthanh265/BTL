@@ -1,0 +1,32 @@
+\begin{table*}[!t]
+\centering
+\caption{UCT variants: five-in-a-row 9x9}
+\label{tab:formula_gomoku9}
+\small
+\begin{tabular}{lllllllll}
+\toprule
+Agent a & Opponent b & Games & W & D & L & Score & Approx. 95\% score interval & Flag \\
+\midrule
+MCTS(1000, c=0.5, no\_sqrt) & MCTS(1000, c=1.4) & 100 & 59 & 0 & 41 & 0.590 & [0.492, 0.681] & interval includes 0.5 (descriptive) \\
+MCTS(1000, c=1.0, no\_sqrt) & MCTS(1000, c=1.4) & 100 & 58 & 0 & 42 & 0.580 & [0.482, 0.672] & interval includes 0.5 (descriptive) \\
+MCTS(1000, c=1.4, no\_sqrt) & MCTS(1000, c=1.4) & 100 & 52 & 0 & 48 & 0.520 & [0.423, 0.615] & interval includes 0.5 (descriptive) \\
+MCTS(1000, c=2.0, no\_sqrt) & MCTS(1000, c=1.4) & 100 & 49 & 0 & 51 & 0.490 & [0.394, 0.587] & interval includes 0.5 (descriptive) \\
+MCTS(1000, c=0.5, no\_log) & MCTS(1000, c=1.4) & 100 & 39 & 0 & 61 & 0.390 & [0.300, 0.488] & interval below 0.5 (descriptive) \\
+MCTS(1000, c=1.0, no\_log) & MCTS(1000, c=1.4) & 100 & 44 & 0 & 56 & 0.440 & [0.347, 0.538] & interval includes 0.5 (descriptive) \\
+MCTS(1000, c=1.4, no\_log) & MCTS(1000, c=1.4) & 100 & 38 & 0 & 62 & 0.380 & [0.291, 0.478] & interval below 0.5 (descriptive) \\
+MCTS(1000, c=2.0, no\_log) & MCTS(1000, c=1.4) & 100 & 24 & 0 & 76 & 0.240 & [0.167, 0.332] & interval below 0.5 (descriptive) \\
+MCTS(1000, c=0.5, polynomial) & MCTS(1000, c=1.4) & 100 & 55 & 0 & 45 & 0.550 & [0.452, 0.644] & interval includes 0.5 (descriptive) \\
+MCTS(1000, c=1.0, polynomial) & MCTS(1000, c=1.4) & 100 & 46 & 0 & 54 & 0.460 & [0.366, 0.557] & interval includes 0.5 (descriptive) \\
+MCTS(1000, c=1.4, polynomial) & MCTS(1000, c=1.4) & 100 & 47 & 0 & 53 & 0.470 & [0.375, 0.567] & interval includes 0.5 (descriptive) \\
+MCTS(1000, c=2.0, polynomial) & MCTS(1000, c=1.4) & 100 & 46 & 0 & 54 & 0.460 & [0.366, 0.557] & interval includes 0.5 (descriptive) \\
+MCTS(1000, c=0.5, ucb1\_tuned) & MCTS(1000, c=1.4) & 90/100 (partial) & 73 & 0 & 17 & 0.811 & [0.718, 0.879] & interval above 0.5 (descriptive) \\
+MCTS(1000, c=1.0, ucb1\_tuned) & MCTS(1000, c=1.4) & 0/100 & - & - & - & - & - & no data \\
+MCTS(1000, c=1.4, ucb1\_tuned) & MCTS(1000, c=1.4) & 0/100 & - & - & - & - & - & no data \\
+MCTS(1000, c=2.0, ucb1\_tuned) & MCTS(1000, c=1.4) & 0/100 & - & - & - & - & - & no data \\
+MCTS(1000, c=0.5, progressive\_bias) & MCTS(1000, c=1.4) & 0/100 & - & - & - & - & - & no data \\
+MCTS(1000, c=1.0, progressive\_bias) & MCTS(1000, c=1.4) & 0/100 & - & - & - & - & - & no data \\
+MCTS(1000, c=1.4, progressive\_bias) & MCTS(1000, c=1.4) & 0/100 & - & - & - & - & - & no data \\
+MCTS(1000, c=2.0, progressive\_bias) & MCTS(1000, c=1.4) & 0/100 & - & - & - & - & - & no data \\
+\bottomrule
+\end{tabular}
+\end{table*}

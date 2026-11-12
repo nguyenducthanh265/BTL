@@ -1,0 +1,121 @@
+Bài tập lớn cho học phần AI để đánh giá giữa kỳ
+Các yêu cầu (có thể điều chỉnh):
+Thời hạn làm: 6 tuần (có thể điều chỉnh thêm) (deadline: 10/12/2026)
+Sản phẩm: report viết theo form ieee conference paper (mặc định tiếng Anh) (min 4-5 trang) + github repo.
+Hình thức kiểm tra: vấn đáp + hỏi code (~10-15 phút) + demo (tic-tac-toe và cờ tướng)
+Trần điểm: Làm phần bắt buộc (Bài 1 + các nội dung trong phần gợi ý): 8-8.5 điểm. Làm thêm phần bonus: 10 điểm
+Định nghĩa bonus:
+Phân tích rõ cơ sở toán học/lý thuyết của công thức UCT
+Thử nghiệm các biến thể công thức UCT khác nhau (bỏ căn, ln,...)
+Cải tiến công thức UCT
+Cải tiến thuật toán tính mô phỏng
+Làm hẳn 1 bài toán mới, ưu tiên bài toán thực tế áp dụng AI (chính là bài 2)
+Bài 1 (Bắt buộc):
+Viết chương trình trò chơi Tic-Tac-Toe (5 quân thẳng hàng thì thắng). Yêu cầu:
+Sử dụng thuật toán MiniMax + Cắt tỉa Alpha-beta cho trò chơi trên.
+Mở rộng bằng MCTS + UCT (Monte Carlo Tree Search + Upper Confidence Bound applied to Trees) cho Tic-Tac-Toe, kiểm chứng rằng với Tic-Tac-Toe, thuật toán không bao giờ thua.         
+                   
+Trong đó:
+Số hạng 1 (khai thác): ưu tiên nước có tỷ lệ thắng cao.
+Số hạng 2 (khám phá): ưu tiên nước ít được thử. Số hạng này tăng dần khi nút cha được thăm nhiều mà nút con bị bỏ quên.
+c: hằng số cân bằng giữa hai số hạng. Giá trị lý thuyết là √2; thực tế cần tinh chỉnh.
+Giải thích công thức của thuật toán:
+i: bước đi i trong tổng số các bước có thể thực hiện trong trạng thái hiện tại.
+W_i: Số lần mà việc thực hiện bước i sẽ dẫn đến chiến thắng.
+N_i: Tổng số lần bước i được thử trong lượt đi ở trạng thái hiện tại.
+N_parent: Tổng số bước đã được thử ở trạng thái hiện tại
+Ví dụ áp dụng thuật toán UCT:
+1. Bản chất của UCT: Câu chuyện "Quán ăn ngon"
+Hãy tưởng tượng bạn chuyển đến một thành phố mới và muốn tìm quán ăn ngon nhất:
+Tận dụng (Exploitation): Bạn đã ăn ở quán A 3 lần và thấy rất ngon. Bạn muốn tiếp tục quay lại quán A để đảm bảo có một bữa ăn ngon (chọn nước đi có tỷ lệ thắng cao nhất hiện tại).
+Khai phá (Exploration): Có quán B bạn chưa từng thử bao giờ. Biết đâu quán B còn ngon hơn quán A? Bạn chấp nhận rủi ro ăn thử quán B (khám phá các nước đi mới, ít được chọn).
+Thuật toán UCT ra đời để cân bằng hoàn hảo hai yếu tố này qua công thức tính điểm cho mỗi nước đi:
+Phần 1:  (Tận dụng: exploit) — Tỷ lệ thắng hiện tại của nước đi đó (Số trận thắng  / Số lần thử ). Phần này lớn nếu nước đi này "ngon".
+Phần 2:  (Khai phá: explore) —  là tổng số lần bạn đã thử nghiệm tất cả các quán ăn,  là số lần thử quán ăn cụ thể này. Nếu một quán ăn rất ít được thử ( nhỏ), phần Khai phá này sẽ trở nên rất lớn, ép máy tính phải vào thử quán đó xem sao.
+ là hằng số (thường chọn bằng ), quyết định máy tính thích "an toàn" hay "phiêu lưu".
+Mỗi lần máy tính cần quyết định, nó sẽ tính điểm UCT cho tất cả các lựa chọn có sẵn, và chọn lựa chọn có điểm UCT cao nhất.
+2. Bốn bước hoạt động của MCTS / UCT
+Thuật toán UCT chạy lặp đi lặp lại hàng nghìn lần qua 4 bước sau để xây dựng một cây quyết định:
+Selection (Lựa chọn): Từ trạng thái bàn cờ hiện tại, máy tính dùng công thức UCT để chọn các nước đi tiếp theo, đi xuống sâu dần cho đến khi gặp một "nút lá" (một nước đi chưa được khám phá hết các nhánh con).
+Expansion (Mở rộng): Tại nút lá đó, máy tính tạo ra thêm một hoặc nhiều nước đi hợp lệ tiếp theo.
+Simulation (Mô phỏng / Rollout): Từ nước đi mới tạo, máy tính sẽ đánh ngẫu nhiên (cả ta và địch đều đi bừa) cho đến khi trận đấu kết thúc (Thắng, Thua hoặc Hòa).
+Backpropagation (Cập nhật ngược): Lấy kết quả của trận đấu ngẫu nhiên đó (ví dụ: Thắng = 1 điểm, Hòa = 0.5 điểm, Thua = 0 điểm) rồi cộng ngược lên tất cả các nước đi đã dẫn đến kết quả này. Tăng số lần thử  lên 1, tăng  nếu thắng.
+3. Thực hiện UCT trên trò chơi Tic-Tac-Toe
+Hãy xem cách UCT vận hành trong một tình huống cụ thể của trò chơi Tic-Tac-Toe.
+Trạng thái ban đầu (Bàn cờ hiện tại)
+Đến lượt quân X đi. Bàn cờ đang như sau:
+text
+O | X | .
+-----------
+ . | O | .
+-----------
+ X | . | .
+Use code with caution.
+Lúc này, quân X có 5 vị trí trống để đi (ta gọi là 5 lựa chọn).
+Giả sử thuật toán đã chạy được một số vòng (N = 20 lần thử tổng cộng)
+Cây quyết định hiện tại trong bộ nhớ của máy tính lưu thông số của 5 lựa chọn này như sau (với ):
+Lựa chọn 1 (Ô giữa dưới): Đã thử  lần, Thắng  lần.
+Lựa chọn 2 (Ô giữa trái): Đã thử  lần, Thắng  lần.
+Lựa chọn 3 (Ô dưới phải): Đã thử  lần, Thắng  lần.
+Lựa chọn 4 (Ô giữa phải): Chưa thử bao giờ ().
+Lựa chọn 5 (Ô trên phải): Chưa thử bao giờ ().
+Thuật toán xử lý vòng tiếp theo (Vòng thứ 21)
+Bước 1 & 2: Selection & Expansion
+Theo quy tắc, các nước đi chưa từng thử bao giờ () sẽ được ưu tiên tối cao để mở rộng cây. Máy tính thấy Lựa chọn 4 chưa thử.
+Máy tính quyết định chọn Lựa chọn 4 (Đặt X vào ô giữa phải).
+Bước 3: Simulation (Mô phỏng)
+Từ bàn cờ sau khi đi Lựa chọn 4:
+text
+O | X | . 
+-----------
+ . | O | X  <-- Nước vừa chọn thử
+-----------
+ X | . | .
+Use code with caution.
+Máy tính bắt đầu tự đóng giả cả 2 người chơi và đánh hoàn toàn ngẫu nhiên (không tính toán) cho đến khi hết bài:
+Lượt O: đi ngẫu nhiên vào ô giữa trái.
+Lượt X: đi ngẫu nhiên vào ô trên phải.
+... Giả sử sau vài nước đi ngẫu nhiên, O thắng (tức là X thua). Kết quả trận đấu này là 0 điểm cho X.
+Bước 4: Backpropagation (Cập nhật ngược)
+Máy tính cập nhật lại dữ liệu của Lựa chọn 4:
+Số lần thử của Lựa chọn 4 tăng lên: .
+Số trận thắng của Lựa chọn 4 giữ nguyên: .
+Tổng số lần thử của toàn bộ hệ thống tăng lên: .
+Chuyện gì xảy ra ở vòng tiếp theo (Vòng thứ 22)?
+Bây giờ, tất cả các lựa chọn từ 1 đến 5 đều đã từng được thử ít nhất 1 lần. Máy tính sẽ dùng công thức UCT để so sánh:
+Hãy tính thử điểm UCT của Lựa chọn 1 và Lựa chọn 3 để xem máy tính chọn cái nào:
+Điểm UCT của Lựa chọn 1 (Nước đi có vẻ tốt):
+Điểm UCT của Lựa chọn 3 (Nước đi mới thử 1 lần và thua):
+Kết quả bất ngờ: Điểm  () lớn hơn  (). Máy tính sẽ chọn Lựa chọn 3 để đi tiếp và mô phỏng tiếp, chứ không chọn Lựa chọn 1 dù Lựa chọn 1 có tỷ lệ thắng cao (0.70).
+Tại sao lại thế? Vì Lựa chọn 3 mới thử đúng 1 lần (). Thuật toán cho rằng: "Có thể lần trước thua chỉ là do ăn may thôi, nước đi này mới thử 1 lần nên ta chưa biết rõ bản chất, cần phải khám phá thêm trước khi loại bỏ nó!".
+Sau hàng ngàn vòng lặp như vậy, các nước đi thực sự tệ sẽ dần lộ diện (số lần thử tăng lên nhưng tỷ lệ thắng không tăng, làm điểm UCT giảm xuống), còn các nước đi tốt sẽ liên tục được củng cố. Khi hết thời gian suy nghĩ, máy tính sẽ nhìn vào cây và chọn nước đi có số lần thử  nhiều nhất hoặc tỷ lệ thắng cao nhất để đánh ngoài đời thực.
+Vì sao lại có căn bậc 2 và ln ?
+Chúng được chứng minh toán học nghiêm ngặt để giải quyết bài toán Multi-Armed Bandit (Bài toán phân phối tài nguyên cho các lựa chọn rủi ro)
+Thực nghiệm: khảo sát ảnh hưởng của c ∈ {0.5, 1.0, 1.4, 2.0} lên tỷ lệ thắng. Vẽ đồ thị giữa số iteration và tỷ lệ thắng.
+Phân tích: giải thích vì sao chọn nước theo N lớn nhất thay vì W/N lớn nhất.
+Mở rộng: thay rollout ngẫu nhiên bằng heuristic đơn giản và đo mức cải thiện. Rút ra bài học: đây chính là tiền thân của value network.
+Mở rộng cho bài toán cờ tướng (*) 🡪 Xác định điểm trên 9
+Bài 2 (Bonus)
+Các bài toán thực tế có thể giải quyết bằng AI
+Các nội dung có trong report:
+Tóm tắt (≤ 200 từ): bài toán, phương pháp, kết quả chính có số liệu, kết luận. T
+1. Giới thiệu
+Bối cảnh, mục tiêu và các câu hỏi…..
+2. Phát biểu bài toán
+Định nghĩa hình thức trò chơi …..
+3. Phương pháp
+3.1 Minimax + Alpha-Beta, hàm lượng giá.
+3.2 MCTS-UCT: UCT(i) = Wᵢ/Nᵢ + c·√(ln N_p / Nᵢ).
+3.3 Rollout ngẫu nhiên và rollout heuristic.
+4. Thiết lập thực nghiệm
+Thử trên 2 trò chơi: Tic-tac-toe và Cờ tướng.
+Môi trường, đối thủ, độ đo (tỷ lệ thắng, số nút, thời gian), số ván (≥ 50, đổi lượt đi trước), c ∈ {0.5; 1.0; 1.4; 2.0}, iteration ∈ {100 … 5000}.
+5. Kết quả
+Bảng số nút Minimax vs Alpha-Beta.
+Bảng thắng/hòa/thua của MCTS (3×3 và bàn 5 quân).
+Đồ thị: số iteration – tỷ lệ thắng, mỗi c một đường.
+Bảng W, N, W/N tại nút gốc.
+So sánh rollout ngẫu nhiên và heuristic.
+……
+6. Thảo luận
+Trả lời từng RQ; giải thích N vs W/N; liên hệ heuristic rollout với value network; nêu hạn chế.

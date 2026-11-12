@@ -1,0 +1,53 @@
+{
+  "nodes": {
+    "rows": 173,
+    "planned": 173,
+    "matched": 173,
+    "missing": 0,
+    "offplan": 0,
+    "duplicates": 0,
+    "status": {
+      "ok": 162,
+      "skipped_node_limit": 10,
+      "timeout": 1
+    }
+  },
+  "root_stats": {
+    "rows": 60,
+    "planned": 60,
+    "matched": 60,
+    "missing": 0,
+    "offplan": 0,
+    "duplicates": 0,
+    "child_rows": 1905
+  },
+  "verify_quality": {
+    "rows": 27,
+    "planned": 27,
+    "matched": 27,
+    "missing": 0,
+    "offplan": 0,
+    "duplicates": 0,
+    "positions_per_run": 4520
+  },
+  "verify_exhaustive": {
+    "rows": 280,
+    "planned": 280,
+    "matched": 280,
+    "missing": 0,
+    "offplan": 0,
+    "duplicates": 0
+  },
+  "bandit": {
+    "rows": 1092,
+    "planned": 1092,
+    "matched": 1092,
+    "missing": 0,
+    "offplan": 0,
+    "duplicates": 0,
+    "runs": 18,
+    "seeds_per_run": 1000
+  },
+  "errors": [],
+  "note": "Coverage and stored numeric invariants; not a rerun of every seeded search. Explicit node skips/timeouts are retained and do not become successful searches."
+}

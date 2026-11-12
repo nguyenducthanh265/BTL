@@ -1,0 +1,19 @@
+\begin{table*}[!t]
+\centering
+\caption{MCTS against every opponent line on 3x3}
+\label{tab:verify_exhaustive}
+\small
+\begin{tabular}{rrrrrrrll}
+\toprule
+Iterations & Runs & Lines & Wins & Draws & Losses & Runs with a loss & Heuristic 3/lines (dependent) & 95\% bound per run (3/runs) \\
+\midrule
+50 & 40 & 12858 & 9985 & 2015 & 858 & 27 & losses observed & losses observed \\
+100 & 40 & 12448 & 10020 & 1963 & 465 & 24 & losses observed & losses observed \\
+200 & 40 & 12159 & 9984 & 1930 & 245 & 20 & losses observed & losses observed \\
+500 & 40 & 11749 & 9901 & 1774 & 74 & 16 & losses observed & losses observed \\
+1000 & 40 & 11501 & 9813 & 1673 & 15 & 9 & losses observed & losses observed \\
+2000 & 40 & 11372 & 9712 & 1660 & 0 & 0 & 0.00026 & 0.0750 \\
+5000 & 40 & 11352 & 9692 & 1660 & 0 & 0 & 0.00026 & 0.0750 \\
+\bottomrule
+\end{tabular}
+\end{table*}

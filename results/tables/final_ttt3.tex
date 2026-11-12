@@ -1,0 +1,22 @@
+\begin{table*}[!t]
+\centering
+\caption{Final-move rule (W/N against most visited): Tic-Tac-Toe 3x3}
+\label{tab:final_ttt3}
+\small
+\begin{tabular}{llrrrrrll}
+\toprule
+Agent a & Opponent b & Games & W & D & L & Score & Approx. 95\% score interval & Flag \\
+\midrule
+MCTS(10, c=1.4) & Perfect & 200 & 0 & 64 & 136 & 0.160 & [0.116, 0.217] & interval below 0.5 (descriptive) \\
+MCTS(10, c=1.4, max\_ratio) & Perfect & 200 & 0 & 69 & 131 & 0.172 & [0.126, 0.231] & interval below 0.5 (descriptive) \\
+MCTS(25, c=1.4) & Perfect & 200 & 0 & 105 & 95 & 0.263 & [0.206, 0.328] & interval below 0.5 (descriptive) \\
+MCTS(25, c=1.4, max\_ratio) & Perfect & 200 & 0 & 108 & 92 & 0.270 & [0.213, 0.335] & interval below 0.5 (descriptive) \\
+MCTS(50, c=1.4) & Perfect & 200 & 0 & 119 & 81 & 0.297 & [0.238, 0.364] & interval below 0.5 (descriptive) \\
+MCTS(50, c=1.4, max\_ratio) & Perfect & 200 & 0 & 130 & 70 & 0.325 & [0.264, 0.393] & interval below 0.5 (descriptive) \\
+MCTS(100, c=1.4) & Perfect & 200 & 0 & 153 & 47 & 0.383 & [0.318, 0.451] & interval below 0.5 (descriptive) \\
+MCTS(100, c=1.4, max\_ratio) & Perfect & 200 & 0 & 149 & 51 & 0.372 & [0.308, 0.441] & interval below 0.5 (descriptive) \\
+MCTS(200, c=1.4) & Perfect & 200 & 0 & 166 & 34 & 0.415 & [0.349, 0.484] & interval below 0.5 (descriptive) \\
+MCTS(200, c=1.4, max\_ratio) & Perfect & 200 & 0 & 159 & 41 & 0.398 & [0.332, 0.467] & interval below 0.5 (descriptive) \\
+\bottomrule
+\end{tabular}
+\end{table*}

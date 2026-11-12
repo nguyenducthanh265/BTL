@@ -1,0 +1,15 @@
+\begin{table*}[!t]
+\centering
+\caption{Win/draw/loss: Tic-Tac-Toe 3x3}
+\label{tab:wdl_ttt3}
+\small
+\begin{tabular}{llrrrrrlll}
+\toprule
+Agent a & Opponent b & Games & W & D & L & Score & As 1st / 2nd & Approx. 95\% score interval & Flag \\
+\midrule
+MCTS(1000, c=1.4) & Random & 200 & 191 & 9 & 0 & 0.978 & 1.00 / 0.95 & [0.946, 0.991] & interval above 0.5 (descriptive) \\
+MCTS(1000, c=1.4) & Perfect & 200 & 0 & 193 & 7 & 0.482 & 0.50 / 0.47 & [0.414, 0.551] & interval includes 0.5 (descriptive) \\
+MCTS(1000, c=1.4) & AB(d=full) & 200 & 0 & 196 & 4 & 0.490 & 0.50 / 0.48 & [0.422, 0.559] & interval includes 0.5 (descriptive) \\
+\bottomrule
+\end{tabular}
+\end{table*}

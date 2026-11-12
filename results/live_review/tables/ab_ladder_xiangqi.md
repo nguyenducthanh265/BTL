@@ -1,0 +1,10 @@
+**MCTS iterations against Alpha-Beta: Xiangqi**
+
+| Agent a | Opponent b | Games | W | D | L | Score | Approx. 95% score interval | Flag |
+|---|---|---|---|---|---|---|---|---|
+| MCTS(100, c=1.4, cutoff) | AB(d=2) | 50 | 0 | 0 | 50 | 0.000 | [0.000, 0.071] | interval below 0.5 (descriptive) |
+| MCTS(200, c=1.4, cutoff) | AB(d=2) | 50 | 0 | 0 | 50 | 0.000 | [0.000, 0.071] | interval below 0.5 (descriptive) |
+| MCTS(500, c=1.4, cutoff) | AB(d=2) | 50 | 0 | 0 | 50 | 0.000 | [0.000, 0.071] | interval below 0.5 (descriptive) |
+| MCTS(1000, c=1.4, cutoff) | AB(d=2) | 50 | 1 | 0 | 49 | 0.020 | [0.004, 0.105] | interval below 0.5 (descriptive) |
+| MCTS(2000, c=1.4, cutoff) | AB(d=2) | 50 | 2 | 1 | 47 | 0.050 | [0.016, 0.149] | interval below 0.5 (descriptive) |
+| MCTS(5000, c=1.4, cutoff) | AB(d=2) | 50 | 4 | 3 | 43 | 0.110 | [0.050, 0.226] | interval below 0.5 (descriptive) |

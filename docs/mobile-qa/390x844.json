@@ -1,0 +1,332 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 844,
+    "maxTouchPoints": 1,
+    "coarsePointer": true
+  },
+  "interaction": "DOM click events in a real browser; real local HTTP/AI; not physical touch",
+  "boards": [
+    {
+      "game": "ttt3",
+      "targetWidth": 116,
+      "targetHeight": 116,
+      "pageWidth": 390,
+      "boardScrollRange": 0,
+      "rightEdgeReachable": true,
+      "scrollHint": false,
+      "played": [
+        4,
+        0
+      ],
+      "undoEmpty": true,
+      "resetEmpty": true,
+      "analysisOverflow": 0,
+      "controls": [
+        {
+          "id": "game",
+          "height": 44
+        },
+        {
+          "id": "side",
+          "height": 44
+        },
+        {
+          "id": "kind",
+          "height": 44
+        },
+        {
+          "id": "iterations",
+          "height": 44
+        },
+        {
+          "id": "c",
+          "height": 44
+        },
+        {
+          "id": "formula",
+          "height": 44
+        },
+        {
+          "id": "rollout",
+          "height": 44
+        },
+        {
+          "id": "new",
+          "height": 44
+        },
+        {
+          "id": "undo",
+          "height": 44
+        }
+      ]
+    },
+    {
+      "game": "five9",
+      "targetWidth": 44,
+      "targetHeight": 44,
+      "pageWidth": 390,
+      "boardScrollRange": 48,
+      "rightEdgeReachable": true,
+      "scrollHint": true,
+      "played": [
+        40,
+        32
+      ],
+      "undoEmpty": true,
+      "resetEmpty": true,
+      "analysisOverflow": 0,
+      "controls": [
+        {
+          "id": "game",
+          "height": 44
+        },
+        {
+          "id": "side",
+          "height": 44
+        },
+        {
+          "id": "kind",
+          "height": 44
+        },
+        {
+          "id": "iterations",
+          "height": 44
+        },
+        {
+          "id": "c",
+          "height": 44
+        },
+        {
+          "id": "formula",
+          "height": 44
+        },
+        {
+          "id": "rollout",
+          "height": 44
+        },
+        {
+          "id": "radius",
+          "height": 44
+        },
+        {
+          "id": "new",
+          "height": 44
+        },
+        {
+          "id": "undo",
+          "height": 44
+        }
+      ]
+    },
+    {
+      "game": "five15",
+      "targetWidth": 44,
+      "targetHeight": 44,
+      "pageWidth": 390,
+      "boardScrollRange": 312,
+      "rightEdgeReachable": true,
+      "scrollHint": true,
+      "played": [
+        112,
+        81
+      ],
+      "undoEmpty": true,
+      "resetEmpty": true,
+      "analysisOverflow": 0,
+      "controls": [
+        {
+          "id": "game",
+          "height": 44
+        },
+        {
+          "id": "side",
+          "height": 44
+        },
+        {
+          "id": "kind",
+          "height": 44
+        },
+        {
+          "id": "iterations",
+          "height": 44
+        },
+        {
+          "id": "c",
+          "height": 44
+        },
+        {
+          "id": "formula",
+          "height": 44
+        },
+        {
+          "id": "rollout",
+          "height": 44
+        },
+        {
+          "id": "radius",
+          "height": 44
+        },
+        {
+          "id": "new",
+          "height": 44
+        },
+        {
+          "id": "undo",
+          "height": 44
+        }
+      ]
+    },
+    {
+      "game": "xiangqi",
+      "targetWidth": 44.091835021972656,
+      "targetHeight": 44.09185791015625,
+      "pageWidth": 390,
+      "boardScrollRange": 81,
+      "rightEdgeReachable": true,
+      "scrollHint": true,
+      "played": [
+        [
+          70,
+          67
+        ],
+        [
+          19,
+          22
+        ]
+      ],
+      "undoEmpty": true,
+      "resetEmpty": true,
+      "analysisOverflow": 0,
+      "controls": [
+        {
+          "id": "game",
+          "height": 44
+        },
+        {
+          "id": "side",
+          "height": 44
+        },
+        {
+          "id": "kind",
+          "height": 44
+        },
+        {
+          "id": "iterations",
+          "height": 44
+        },
+        {
+          "id": "c",
+          "height": 44
+        },
+        {
+          "id": "formula",
+          "height": 44
+        },
+        {
+          "id": "rollout",
+          "height": 44
+        },
+        {
+          "id": "new",
+          "height": 44
+        },
+        {
+          "id": "undo",
+          "height": 44
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "formula": "ucb1",
+      "used": "ucb1",
+      "c": 1.8
+    },
+    {
+      "formula": "no_sqrt",
+      "used": "no_sqrt",
+      "c": 1.8
+    },
+    {
+      "formula": "no_log",
+      "used": "no_log",
+      "c": 1.8
+    },
+    {
+      "formula": "polynomial",
+      "used": "polynomial",
+      "c": 1.8
+    },
+    {
+      "formula": "ucb1_tuned",
+      "used": "ucb1_tuned",
+      "c": 1.8
+    },
+    {
+      "formula": "progressive_bias",
+      "used": "progressive_bias",
+      "c": 1.8
+    },
+    {
+      "rollout": "random",
+      "used": "random"
+    },
+    {
+      "rollout": "heuristic",
+      "used": "heuristic"
+    },
+    {
+      "rollout": "cutoff",
+      "used": "cutoff"
+    },
+    {
+      "type": "alphabeta",
+      "depth": 9,
+      "value": 0,
+      "hiddenMctsOptions": true
+    },
+    {
+      "humanSide": -1,
+      "aiOpening": [
+        7
+      ],
+      "undoDisabled": true
+    }
+  ],
+  "races": [
+    {
+      "action": "undo",
+      "pendingMoves": [
+        4
+      ],
+      "after": [],
+      "staleResponseIgnored": true
+    },
+    {
+      "action": "new",
+      "pendingMoves": [
+        4
+      ],
+      "after": [],
+      "staleResponseIgnored": true
+    }
+  ],
+  "errors": [
+    {
+      "httpStatus": 400,
+      "message": "Công thức không hợp lệ",
+      "moves": [
+        4
+      ],
+      "undoEnabled": true
+    },
+    {
+      "recovery": "undo",
+      "message": "",
+      "moves": []
+    }
+  ],
+  "result": "PASS"
+}

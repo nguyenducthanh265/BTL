@@ -1,0 +1,10 @@
+**Win/draw/loss: five-in-a-row 9x9**
+
+| Agent a | Opponent b | Games | W | D | L | Score | As 1st / 2nd | Approx. 95% score interval | Flag |
+|---|---|---|---|---|---|---|---|---|---|
+| MCTS(1000, c=1.4) | Random | 100 | 100 | 0 | 0 | 1.000 | 1.00 / 1.00 | [0.963, 1.000] | interval above 0.5 (descriptive) |
+| MCTS(1000, c=1.4) | AB(d=1, r=1) | 100 | 0 | 0 | 100 | 0.000 | 0.00 / 0.00 | [0.000, 0.037] | interval below 0.5 (descriptive) |
+| MCTS(1000, c=1.4) | AB(d=2, r=2) | 100 | 0 | 0 | 100 | 0.000 | 0.00 / 0.00 | [0.000, 0.037] | interval below 0.5 (descriptive) |
+| MCTS(5000, c=1.4) | Random | 0/100 | - | - | - | - | - | - | no data |
+| MCTS(5000, c=1.4) | AB(d=1, r=1) | 0/100 | - | - | - | - | - | - | no data |
+| MCTS(5000, c=1.4) | AB(d=2, r=2) | 0/100 | - | - | - | - | - | - | no data |

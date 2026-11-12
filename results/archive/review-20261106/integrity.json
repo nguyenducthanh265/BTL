@@ -1,0 +1,179 @@
+{
+  "ttt3": {
+    "rows": 43000,
+    "valid": 43000,
+    "duplicates": 0,
+    "planned": 43000,
+    "matched": 43000,
+    "offplan": 0,
+    "errors": {},
+    "exp": {
+      "curve": {
+        "planned": 7200,
+        "matched": 7200,
+        "missing": 0,
+        "supplementary": 0
+      },
+      "curve_perfect": {
+        "planned": 7200,
+        "matched": 7200,
+        "missing": 0,
+        "supplementary": 0
+      },
+      "final": {
+        "planned": 2000,
+        "matched": 2000,
+        "missing": 0,
+        "supplementary": 0
+      },
+      "formula": {
+        "planned": 24000,
+        "matched": 24000,
+        "missing": 0,
+        "supplementary": 0
+      },
+      "rollout": {
+        "planned": 2000,
+        "matched": 2000,
+        "missing": 0,
+        "supplementary": 0
+      },
+      "wdl": {
+        "planned": 600,
+        "matched": 600,
+        "missing": 0,
+        "supplementary": 0
+      }
+    },
+    "pairings": 215,
+    "pairings_50plus": 215,
+    "pairings_balanced": 215,
+    "agent_hours": 1.0316711388888888
+  },
+  "gomoku9": {
+    "rows": 4590,
+    "valid": 4590,
+    "duplicates": 0,
+    "planned": 6700,
+    "matched": 4590,
+    "offplan": 0,
+    "errors": {},
+    "exp": {
+      "ab_ladder": {
+        "planned": 600,
+        "matched": 500,
+        "missing": 100,
+        "supplementary": 0
+      },
+      "curve": {
+        "planned": 2400,
+        "matched": 1600,
+        "missing": 800,
+        "supplementary": 0
+      },
+      "final": {
+        "planned": 300,
+        "matched": 200,
+        "missing": 100,
+        "supplementary": 0
+      },
+      "formula": {
+        "planned": 2000,
+        "matched": 1290,
+        "missing": 710,
+        "supplementary": 0
+      },
+      "radius": {
+        "planned": 100,
+        "matched": 0,
+        "missing": 100,
+        "supplementary": 0
+      },
+      "rollout": {
+        "planned": 400,
+        "matched": 400,
+        "missing": 0,
+        "supplementary": 0
+      },
+      "rollout_vs_ab": {
+        "planned": 300,
+        "matched": 300,
+        "missing": 0,
+        "supplementary": 0
+      },
+      "wdl": {
+        "planned": 600,
+        "matched": 300,
+        "missing": 300,
+        "supplementary": 0
+      }
+    },
+    "pairings": 46,
+    "pairings_50plus": 46,
+    "pairings_balanced": 46,
+    "agent_hours": 3.209057722222222
+  },
+  "xiangqi": {
+    "rows": 150,
+    "valid": 150,
+    "duplicates": 0,
+    "planned": 3200,
+    "matched": 50,
+    "offplan": 100,
+    "errors": {},
+    "exp": {
+      "ab_ladder": {
+        "planned": 300,
+        "matched": 0,
+        "missing": 300,
+        "supplementary": 0
+      },
+      "ab_self": {
+        "planned": 100,
+        "matched": 50,
+        "missing": 50,
+        "supplementary": 0
+      },
+      "curve": {
+        "planned": 1200,
+        "matched": 0,
+        "missing": 1200,
+        "supplementary": 0
+      },
+      "final": {
+        "planned": 50,
+        "matched": 0,
+        "missing": 50,
+        "supplementary": 0
+      },
+      "formula": {
+        "planned": 1000,
+        "matched": 0,
+        "missing": 1000,
+        "supplementary": 0
+      },
+      "rollout": {
+        "planned": 100,
+        "matched": 0,
+        "missing": 100,
+        "supplementary": 0
+      },
+      "rollout_vs_ab": {
+        "planned": 150,
+        "matched": 0,
+        "missing": 150,
+        "supplementary": 0
+      },
+      "wdl": {
+        "planned": 300,
+        "matched": 0,
+        "missing": 300,
+        "supplementary": 100
+      }
+    },
+    "pairings": 3,
+    "pairings_50plus": 3,
+    "pairings_balanced": 3,
+    "agent_hours": 0.14083741666666666
+  }
+}

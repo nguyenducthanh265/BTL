@@ -1,0 +1,13 @@
+\begin{table*}[!t]
+\centering
+\caption{Final-move rule (W/N against most visited): Xiangqi}
+\label{tab:final_xiangqi}
+\small
+\begin{tabular}{llrrrrrll}
+\toprule
+Agent a & Opponent b & Games & W & D & L & Score & Approx. 95\% score interval & Flag \\
+\midrule
+MCTS(500, c=1.4, cutoff, max\_ratio) & MCTS(500, c=1.4, cutoff) & 50 & 25 & 5 & 20 & 0.550 & [0.413, 0.679] & interval includes 0.5 (descriptive) \\
+\bottomrule
+\end{tabular}
+\end{table*}

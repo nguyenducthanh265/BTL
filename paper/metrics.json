@@ -1,0 +1,53 @@
+{
+  "values": {
+    "python": "3.13.7",
+    "ttt3_actual": "43,000",
+    "ttt3_done": "43,000",
+    "ttt3_planned": "43,000",
+    "gomoku9_actual": "4,590",
+    "gomoku9_done": "4,590",
+    "gomoku9_planned": "6,700",
+    "xiangqi_actual": "150",
+    "xiangqi_done": "50",
+    "xiangqi_planned": "3,200",
+    "quality_table": "| Iterations | Positions | Blunders | Rate |\n|---|---|---|---|\n| 10 | 13,560 | 1,462 | 0.1078 |\n| 25 | 13,560 | 787 | 0.0580 |\n| 50 | 13,560 | 382 | 0.0282 |\n| 100 | 13,560 | 246 | 0.0181 |\n| 200 | 13,560 | 137 | 0.0101 |\n| 500 | 13,560 | 61 | 0.0045 |\n| 1000 | 13,560 | 23 | 0.0017 |\n| 2000 | 13,560 | 0 | 0.0000 |\n| 5000 | 13,560 | 0 | 0.0000 |",
+    "exhaustive_table": "| Iterations | Seed/side runs | Leaf paths | Loss paths |\n|---|---|---|---|\n| 50 | 40 | 12,858 | 858 |\n| 100 | 40 | 12,448 | 465 |\n| 200 | 40 | 12,159 | 245 |\n| 500 | 40 | 11,749 | 74 |\n| 1000 | 40 | 11,501 | 15 |\n| 2000 | 40 | 11,372 | 0 |\n| 5000 | 40 | 11,352 | 0 |",
+    "wdl_table": "| Game / opponent | Iter. | n | W / D / L |\n|---|---|---|---|\n| gomoku9 / alphabeta d=1 | 1000 | 100 | 0 / 0 / 100 |\n| gomoku9 / alphabeta d=2 | 1000 | 100 | 0 / 0 / 100 |\n| gomoku9 / random | 1000 | 100 | 100 / 0 / 0 |\n| ttt3 / alphabeta d=None | 1000 | 200 | 0 / 196 / 4 |\n| ttt3 / perfect | 1000 | 200 | 0 / 193 / 7 |\n| ttt3 / random | 1000 | 200 | 191 / 9 / 0 |\n| xiangqi / alphabeta d=1 | 100 | 50 | 7 / 0 / 43 |\n| xiangqi / random | 100 | 50 | 33 / 14 / 3 |",
+    "nodes_table": "| 3x3 start algorithm | Nodes | Value |\n|---|---|---|\n| minimax | 549,946 | 0 |\n| alphabeta | 31,621 | 0 |\n| alphabeta_ordered | 22,294 | 0 |",
+    "root_table": "| Move (cell) | N | W | W/N | Chosen |\n|---|---|---|---|---|\n| 8 | 798 | 485.0 | 0.6078 | 1 |\n| 5 | 55 | 13.0 | 0.2364 | 0 |\n| 7 | 53 | 12.0 | 0.2264 | 0 |\n| 3 | 50 | 10.5 | 0.21 | 0 |\n| 2 | 44 | 8.0 | 0.1818 | 0 |"
+  },
+  "input_files": {
+    "bandit.csv": {
+      "bytes": 73672,
+      "sha256": "bf8c140a4f5c3187c69d660041c9143b649ef0c12b93fba8c51509a5abfbafe9"
+    },
+    "gomoku9.csv": {
+      "bytes": 1883789,
+      "sha256": "eb58a97a1e5138ef35656d28fb892e2b7ef99e5ad8bafa96f94aa7f80ae13580"
+    },
+    "nodes.csv": {
+      "bytes": 15352,
+      "sha256": "8d41c2743e2597e74931081ace0d2d93e7f8ccfa1c4d910168a16b1a4b447bca"
+    },
+    "root_stats.csv": {
+      "bytes": 125629,
+      "sha256": "3f4b5973d9bd44852a63bb6f0bc777a517e51fea0a4c95504023a8e906f0cf48"
+    },
+    "ttt3.csv": {
+      "bytes": 11287580,
+      "sha256": "866a8cff36ae426e3fc33174b2a8af3b21c8b3c53abfd9e02a2e0bcab4d582b2"
+    },
+    "verify_exhaustive.csv": {
+      "bytes": 6002,
+      "sha256": "63e7d2c90d8036766e79ea1962e0e4ef2873075374a123f2a5002ffb52af637f"
+    },
+    "verify_quality.csv": {
+      "bytes": 413,
+      "sha256": "a9852a3807a551517ad89404866075dbfafbd737eaf7ec0900d02fabcca12b39"
+    },
+    "xiangqi.csv": {
+      "bytes": 135965,
+      "sha256": "eb672b31099d0fbeafaecd0d67caaadae0f3a1664bb3be5477f82bce4b53de4a"
+    }
+  }
+}

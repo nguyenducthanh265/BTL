@@ -1,0 +1,12 @@
+{
+  "archive": "btl-ai-mcts-1.1.0-technical.zip",
+  "archive_sha256": "d68b24563da223bf9ed599c9144e388ca9a1f557b4b4b0e48381d3e2e80408fe",
+  "per_file_hashes_verified": 152,
+  "isolated_imports": true,
+  "planned_suites_missing_zero": true,
+  "actual_xiangqi_http_reply": true,
+  "html_utf8_exact_asset": true,
+  "post_smoke_changes": [
+    "PLAN.md"
+  ]
+}

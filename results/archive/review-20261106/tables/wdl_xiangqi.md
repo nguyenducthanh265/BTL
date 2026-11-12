@@ -1,0 +1,12 @@
+**Win/draw/loss: Xiangqi**
+
+| Agent a | Opponent b | Games | W | D | L | Score | As 1st / 2nd | Approx. 95% score interval | Flag |
+|---|---|---|---|---|---|---|---|---|---|
+| MCTS(1000, c=1.4, cutoff) | Random | 0/50 | - | - | - | - | - | - | no data |
+| MCTS(1000, c=1.4, cutoff) | AB(d=1) | 0/50 | - | - | - | - | - | - | no data |
+| MCTS(1000, c=1.4, cutoff) | AB(d=2) | 0/50 | - | - | - | - | - | - | no data |
+| MCTS(5000, c=1.4, cutoff) | Random | 0/50 | - | - | - | - | - | - | no data |
+| MCTS(5000, c=1.4, cutoff) | AB(d=1) | 0/50 | - | - | - | - | - | - | no data |
+| MCTS(5000, c=1.4, cutoff) | AB(d=2) | 0/50 | - | - | - | - | - | - | no data |
+| MCTS(100, c=1.4, cutoff) | Random | 50 | 33 | 14 | 3 | 0.800 | 0.82 / 0.78 | [0.670, 0.888] | interval above 0.5 (descriptive) |
+| MCTS(100, c=1.4, cutoff) | AB(d=1) | 50 | 7 | 0 | 43 | 0.140 | 0.16 / 0.12 | [0.070, 0.262] | interval below 0.5 (descriptive) |

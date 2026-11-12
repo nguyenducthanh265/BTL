@@ -1,0 +1,21 @@
+\begin{table*}[!t]
+\centering
+\caption{MCTS move quality on every reachable 3x3 position}
+\label{tab:verify_quality}
+\small
+\begin{tabular}{rrrrrlr}
+\toprule
+Iterations & Seeds & Decisions & Blunders & Blunder rate & 95\% CI & Rate where blunder possible \\
+\midrule
+10 & 3 & 13560 & 1462 & 0.1078 & [0.103, 0.113] & 0.1527 \\
+25 & 3 & 13560 & 787 & 0.0580 & [0.054, 0.062] & 0.0822 \\
+50 & 3 & 13560 & 382 & 0.0282 & [0.026, 0.031] & 0.0399 \\
+100 & 3 & 13560 & 246 & 0.0181 & [0.016, 0.021] & 0.0257 \\
+200 & 3 & 13560 & 137 & 0.0101 & [0.009, 0.012] & 0.0143 \\
+500 & 3 & 13560 & 61 & 0.0045 & [0.004, 0.006] & 0.0064 \\
+1000 & 3 & 13560 & 23 & 0.0017 & [0.001, 0.003] & 0.0024 \\
+2000 & 3 & 13560 & 0 & 0.0000 & [0.000, 0.000] & 0.0000 \\
+5000 & 3 & 13560 & 0 & 0.0000 & [0.000, 0.000] & 0.0000 \\
+\bottomrule
+\end{tabular}
+\end{table*}
